@@ -55,7 +55,9 @@ def create_index(
     for i, (r, m) in enumerate(itertools.product(range(triples_factory.num_relations), (heads, tails)), start=1):
         data.extend(sorted(m[r]))
         offsets[i] = len(data)
-    data = torch.as_tensor(data=data, dtype=torch.long)
+        
+    # Magdalena: added device
+    data = torch.as_tensor(data=data, dtype=torch.long, device=triples_factory.mapped_triples.device)
     return data, offsets
 
 
