@@ -111,7 +111,7 @@ class PseudoTypedNegativeSampler(NegativeSampler):
         num_choices = end - start_heads
         
         #Magdalena:
-        negative_ids = start_heads + (torch.rand(size=(batch_size, self.num_negs_per_pos)) * num_choices).long().to(device=positive_batch.device)
+        negative_ids = start_heads + (torch.rand(size=(batch_size, self.num_negs_per_pos, device = positive_batch.device)) * num_choices).long().to(device=positive_batch.device)
          
         # Magdalena:
         # get corresponding entity
