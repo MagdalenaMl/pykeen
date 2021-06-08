@@ -105,9 +105,9 @@ class PseudoTypedNegativeSampler(NegativeSampler):
         
         # Uniformly sample from head/tail offsets
         r = positive_batch[:, 1]
-        start_heads = self.offsets[2 * r].unsqueeze(dim=-1)
-        start_tails = self.offsets[2 * r + 1].unsqueeze(dim=-1)
-        end = self.offsets[2 * r + 2].unsqueeze(dim=-1)
+        start_heads = self.offsets[2 * r].unsqueeze(dim=-1).to(device=positive_batch.device)
+        start_tails = self.offsets[2 * r + 1].unsqueeze(dim=-1).to(device=positive_batch.device)
+        end = self.offsets[2 * r + 2].unsqueeze(dim=-1).to(device=positive_batch.device)
         num_choices = end - start_heads
         
         #Magdalena:
