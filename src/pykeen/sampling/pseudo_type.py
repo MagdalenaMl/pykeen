@@ -112,7 +112,7 @@ class PseudoTypedNegativeSampler(NegativeSampler):
         negative_ids = start_heads + (torch.rand(size=(batch_size, self.num_negs_per_pos)) * num_choices).long()
 
         # get corresponding entity
-        entity_id = self.data[negative_ids]
+        entity_id = self.data[negative_ids].cuda()
 
         # and position within triple (0: head, 2: tail)
         triple_position = 2 * (negative_ids >= start_tails).long()
