@@ -101,7 +101,7 @@ class PseudoTypedNegativeSampler(NegativeSampler):
         negative_batch = positive_batch.unsqueeze(dim=1).repeat(1, self.num_negs_per_pos, 1)
         
         # Magdalena:
-        negative_batch = negative_batch.cuda()
+        negative_batch = negative_batch.to(device=positive_batch.device)
         
         # Uniformly sample from head/tail offsets
         r = positive_batch[:, 1]
@@ -109,13 +109,16 @@ class PseudoTypedNegativeSampler(NegativeSampler):
         start_tails = self.offsets[2 * r + 1].unsqueeze(dim=-1)
         end = self.offsets[2 * r + 2].unsqueeze(dim=-1)
         num_choices = end - start_heads
-        negative_ids = start_heads + (torch.rand(size=(batch_size, self.num_negs_per_pos)) * num_choices).long()
-
+        
+        #Magdalena:
+        negative_ids = start_heads + (torch.rand(size=(batch_size, self.num_negs_per_pos)) * num_choices).long().to(device=positive_batch.device)
+         
+        # Magdalena:
         # get corresponding entity
-        entity_id = self.data[negative_ids].cuda()
+        entity_id = self.data[negative_ids].to(device=positive_batch.device)
 
         # and position within triple (0: head, 2: tail)
-        triple_position = 2 * (negative_ids >= start_tails).long()
+        triple_position = 2 * (negative_ids >= start_tails).long().to(device=positive_batch.device)
 
         # write into negative batch
         # Magdalena: changed negative batch into positive batch
