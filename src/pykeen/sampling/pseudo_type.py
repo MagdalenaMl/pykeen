@@ -50,7 +50,8 @@ def create_index(
 
     # create index structure
     data = []
-    offsets = torch.empty(2 * triples_factory.num_relations + 1, dtype=torch.long)
+    # Magdalena: added device
+    offsets = torch.empty(2 * triples_factory.num_relations + 1, dtype=torch.long, device=triples_factory.mapped_triples.device)
     offsets[0] = 0
     for i, (r, m) in enumerate(itertools.product(range(triples_factory.num_relations), (heads, tails)), start=1):
         data.extend(sorted(m[r]))
