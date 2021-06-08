@@ -125,5 +125,6 @@ class PseudoTypedNegativeSampler(NegativeSampler):
             torch.arange(self.num_negs_per_pos, device=positive_batch.device).unsqueeze(dim=0),
             triple_position,
         ] = entity_id
-
-        return negative_batch
+        
+        # Magdalena: return negative_batch --> return negative_batch.cuda()
+        return negative_batch.cuda()
